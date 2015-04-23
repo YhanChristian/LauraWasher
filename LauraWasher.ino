@@ -19,6 +19,8 @@ void setup() {
  
   pinMode(11, OUTPUT); //speaker
   
+  pinMode(A0, INPUT_PULLUP);
+  
   pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
   pinMode(6, OUTPUT);
@@ -38,6 +40,16 @@ void setup() {
 
 //main loop
 void loop() {
+  
+  
+  /*
+  while(1){
+      int programSelectorValue = analogRead(0); //leitura tensao chave seletora
+      
+      Serial.println(programSelectorValue);
+      
+      delay(250);
+  }*/
   
   if(programStatus == 0){
     
