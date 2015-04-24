@@ -91,11 +91,7 @@ void loop() {
           Serial.println(">> Esvaziando o excesso de agua da centrifugacao...");
           tankFlush(15); //retira a agua restante da centrifugacao
           
-          digitalWrite(13, HIGH); //acende o led status de verde pra indicar lavagem completa
-      
           Serial.println(">> LAVAGEM COMPLETA! =)");
-      
-          endOfJobMusic(); //barulho
       }
       
       //MODO 3 - Lavagem Normal
@@ -145,11 +141,7 @@ void loop() {
           Serial.println(">> Esvaziando o excesso de agua da centrifugacao...");
           tankFlush(15); //retira a agua restante da centrifugacao
           
-          digitalWrite(13, HIGH); //acende o led status de verde pra indicar lavagem completa
-      
           Serial.println(">> LAVAGEM COMPLETA! =)");
-      
-          endOfJobMusic(); //barulho
       }
       //MODO 4 - Lavagem Rapida
       else if(programSelectorValue > 68 && programSelectorValue < 80){
@@ -189,11 +181,7 @@ void loop() {
           Serial.println(">> Esvaziando o excesso de agua da centrifugacao...");
           tankFlush(15); //retira a agua restante da centrifugacao
           
-          digitalWrite(13, HIGH); //acende o led status de verde pra indicar lavagem completa
-      
           Serial.println(">> LAVAGEM COMPLETA! =)");
-      
-          endOfJobMusic(); //barulho
       }
       
       //MODO 7 - CENTRIFUGACAO
@@ -209,53 +197,16 @@ void loop() {
           Serial.println(">> Esvaziando o excesso de agua da centrifugacao (15s)...");
           tankFlush(15); //retira a agua restante da centrifugacao
           
-          digitalWrite(13, HIGH); //acende o led status de verde pra indicar lavagem completa
-          
           Serial.println(">> CENTRIFUGACAO COMPLETA! =)");
-          
-          endOfJobMusic(); //faz barulho
       }
       
-      programStatus = 1; //programa concluido!
-  }
-  
-  /*
-  while(1){
-      int programSelectorValue = analogRead(0); //leitura tensao chave seletora
-      
-      Serial.println(programSelectorValue/10);
-      
-      delay(250);
-  }*/
-  
-  /*
-  if(programStatus == 0){
-    
-      Serial.println("### INICIANDO LAVAGEM ###");
-    
-      Serial.println(">> Inundando o tanque com agua ate o nivel selecionado...");
-      tankFlood(); //enche o tanque ate o nivel selecionado
-      
-      Serial.println(">> Batendo a roupa 4x com intervalos de 3 segundos...");
-      wash(4, 2000); //bate a roupa
-      
-      Serial.println(">> Esvaziando o tanque ate o fim...");
-      tankFlush(0); //esvazia o tanque
-      
-      Serial.println(">> Centrifugando durante 30 segundos...");
-      tankCentrifuge(30); //centrifuga a parada
-      
-      Serial.println(">> Esvaziando o excesso de agua da centrifugacao...");
-      tankFlush(15); //retira a agua restante da centrifugacao
-      
-      programStatus = 1;
       
       digitalWrite(13, HIGH); //acende o led status de verde pra indicar lavagem completa
       
-      Serial.println(">> LAVAGEM COMPLETA! Bora beber! =)");
+      endOfJobMusic(); //faz barulho
       
-      endOfJobMusic(); //fim da festa!
-  }*/
+      programStatus = 1; //programa concluido!
+  }
   
 }
 
