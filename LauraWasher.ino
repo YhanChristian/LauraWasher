@@ -37,36 +37,163 @@ void loop() {
       
       int programSelectorValue = (analogRead(0) / 10); //leitura key-selector 
       
-      //MODO 1
+      //MODO 1 - Super Molho
       if(programSelectorValue > 98 && programSelectorValue < 105){
           //sequencia 1
-          Serial.println("MODO 1");
-          //Serial.println(programSelectorValue);
+          Serial.println("MODO 1 :: SUPER MOLHO");
+          //nunca usado
       }
-      //MODO 2
+      
+      //MODO 2 - Lavagem Pesada
       else if(programSelectorValue > 90 && programSelectorValue < 98){
-          Serial.println("MODO 2");
-          //Serial.println(programSelectorValue);
+          Serial.println("MODO 2 :: LAVAGEM PESADA");
+          Serial.println("### INICIANDO LAVAGEM ###");
+          
+          Serial.println(">> Inundando o tanque com agua ate o nivel selecionado...");
+          tankFlood(); //inundando o tanque
+          
+          //bate a roupa durante 5 minutos, deixa de molho 5 minutos, e repete ate completar 1hr
+          Serial.println(">> Batendo a roupa por 1hr com repouso de 5 min...");
+          for(int i=0; i <= 6; i++){
+              
+              wash(75, 1500); //bate a roupa 75x
+              
+              //deixa a roupa de molho por 5 min
+              for (int i=0; i < 300; i++){
+                  digitalWrite(12, HIGH);
+                  delay(500);
+                  digitalWrite(12, LOW);
+                  delay(500);
+              }
+          }
+          
+          Serial.println(">> Esvaziando o tanque ate o fim...");
+          tankFlush(0); //esvazia o tanque
+          
+          Serial.println(">> Centrifugando durante 3 min...");
+          tankCentrifuge(180); //centrifuga a parada
+          
+          Serial.println(">> Esvaziando o excesso de agua...");
+          tankFlush(15); //retira a agua restante da centrifugacao
+          
+          Serial.println(">> Inundando o tanque...");
+          tankFlood(); //inundando o tanque
+          
+          Serial.println(">> Batendo a roupa por mais 5min...");
+          wash(75, 1500); //bate a roupa 75x
+          
+          Serial.println(">> Esvaziando o tanque ate o fim...");
+          tankFlush(0); //esvazia o tanque
+          
+          Serial.println(">> Centrifugando por mais 3 minutos...");
+          tankCentrifuge(180); //centrifuga a parada
+          
+          Serial.println(">> Esvaziando o excesso de agua da centrifugacao...");
+          tankFlush(15); //retira a agua restante da centrifugacao
+          
+          digitalWrite(13, HIGH); //acende o led status de verde pra indicar lavagem completa
+      
+          Serial.println(">> LAVAGEM COMPLETA! =)");
+      
+          endOfJobMusic(); //barulho
       }
-      //MODO 3
+      
+      //MODO 3 - Lavagem Normal
       else if(programSelectorValue > 80 && programSelectorValue < 90){
-          Serial.println("MODO 3");
-          //Serial.println(programSelectorValue);
+          Serial.println("MODO 3 :: LAVAGEM NORMAL");
+          Serial.println("### INICIANDO LAVAGEM ###");
+          
+          Serial.println(">> Inundando o tanque com agua ate o nivel selecionado...");
+          tankFlood(); //inundando o tanque
+          
+          //bate a roupa durante 5 minutos, deixa de molho 5 minutos, e repete ate completar 1hr
+          Serial.println(">> Batendo a roupa por 30 minutos com repouso de 5 min...");
+          for(int i=0; i <= 6; i++){
+              
+              wash(75, 1500); //bate a roupa 75x
+              
+              //deixa a roupa de molho por 5 min
+              for (int i=0; i < 300; i++){
+                  digitalWrite(12, HIGH);
+                  delay(500);
+                  digitalWrite(12, LOW);
+                  delay(500);
+              }
+          }
+          
+          Serial.println(">> Esvaziando o tanque ate o fim...");
+          tankFlush(0); //esvazia o tanque
+          
+          Serial.println(">> Centrifugando durante 3 min...");
+          tankCentrifuge(180); //centrifuga a parada
+          
+          Serial.println(">> Esvaziando o excesso de agua...");
+          tankFlush(15); //retira a agua restante da centrifugacao
+          
+          Serial.println(">> Inundando o tanque...");
+          tankFlood(); //inundando o tanque
+          
+          Serial.println(">> Batendo a roupa por mais 5min...");
+          wash(75, 1500); //bate a roupa 75x
+          
+          Serial.println(">> Esvaziando o tanque ate o fim...");
+          tankFlush(0); //esvazia o tanque
+          
+          Serial.println(">> Centrifugando por mais 3 minutos...");
+          tankCentrifuge(180); //centrifuga a parada
+          
+          Serial.println(">> Esvaziando o excesso de agua da centrifugacao...");
+          tankFlush(15); //retira a agua restante da centrifugacao
+          
+          digitalWrite(13, HIGH); //acende o led status de verde pra indicar lavagem completa
+      
+          Serial.println(">> LAVAGEM COMPLETA! =)");
+      
+          endOfJobMusic(); //barulho
       }
-      //MODO 4
+      //MODO 4 - Lavagem Rapida
       else if(programSelectorValue > 68 && programSelectorValue < 80){
-          Serial.println("MODO 4");
-          //Serial.println(programSelectorValue);
+          Serial.println("MODO 4 :: LAVAGEM RAPIDA");
+          //nunca usado
       }
-      //MODO 5
+      //MODO 5 - Lavagem Delicada
       else if(programSelectorValue > 51 && programSelectorValue < 68){
-          Serial.println("MODO 5");
-          //Serial.println(programSelectorValue);
+          Serial.println("MODO 5 :: LAVAGEM DELICADA");
+          //nunca usado
       }
       //MODO 6
       else if(programSelectorValue > 31 && programSelectorValue < 51){
-          Serial.println("MODO 6");
-          //Serial.println(programSelectorValue);
+          Serial.println("MODO 6 :: ENXAGUE");
+          
+          Serial.println(">> Esvaziando o tanque ate o fim...");
+          tankFlush(0); //esvazia o tanque
+          
+          Serial.println(">> Centrifugando durante 3 min...");
+          tankCentrifuge(180); //centrifuga a parada
+          
+          Serial.println(">> Esvaziando o excesso de agua...");
+          tankFlush(15); //retira a agua restante da centrifugacao
+          
+          Serial.println(">> Inundando o tanque...");
+          tankFlood(); //inundando o tanque
+          
+          Serial.println(">> Batendo a roupa por mais 5min...");
+          wash(75, 1500); //bate a roupa 75x
+          
+          Serial.println(">> Esvaziando o tanque ate o fim...");
+          tankFlush(0); //esvazia o tanque
+          
+          Serial.println(">> Centrifugando por mais 3 minutos...");
+          tankCentrifuge(180); //centrifuga a parada
+          
+          Serial.println(">> Esvaziando o excesso de agua da centrifugacao...");
+          tankFlush(15); //retira a agua restante da centrifugacao
+          
+          digitalWrite(13, HIGH); //acende o led status de verde pra indicar lavagem completa
+      
+          Serial.println(">> LAVAGEM COMPLETA! =)");
+      
+          endOfJobMusic(); //barulho
       }
       
       //MODO 7 - CENTRIFUGACAO
@@ -89,7 +216,7 @@ void loop() {
           endOfJobMusic(); //faz barulho
       }
       
-      programStatus = 1;
+      programStatus = 1; //programa concluido!
   }
   
   /*
