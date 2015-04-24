@@ -46,7 +46,7 @@ void loop() {
   while(1){
       int programSelectorValue = analogRead(0); //leitura tensao chave seletora
       
-      Serial.println(programSelectorValue);
+      Serial.println(programSelectorValue/10);
       
       delay(250);
   }*/
