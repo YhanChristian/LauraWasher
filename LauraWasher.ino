@@ -1,10 +1,6 @@
 //global vars
 int keySelectorRead = 0;
 int programStatus = 0;
-int tankFloodingCount = 0;
-
-
-
 
 
 //config settings
@@ -13,17 +9,15 @@ void setup() {
   Serial.begin(9600);
   
   pinMode(3, INPUT); //pressostato
-  
+  pinMode(5, OUTPUT); //motor E
+  pinMode(6, OUTPUT); //motor D
+  pinMode(7, OUTPUT); //bomba flush
+  pinMode(8, OUTPUT); //solenoide inundacao
+  pinMode(11, OUTPUT); //speaker
   pinMode(12, OUTPUT); //led status - vermelho
   pinMode(13, OUTPUT); //led status - verde
+  pinMode(A0, INPUT_PULLUP); //pullup do selector-key
  
-  pinMode(11, OUTPUT); //speaker
-  
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(8, OUTPUT);
-  
   //zera todas saidas
   digitalWrite(5, LOW);
   digitalWrite(6, LOW);
@@ -40,6 +34,53 @@ void setup() {
 void loop() {
   
   if(programStatus == 0){
+      
+      int programSelectorValue = analogRead(0); //leitura key-selector
+      
+      //MODO 1
+      if(programSelectorValue > 63 && programSelectorValue < 69){
+          //sequencia 1
+          Serial.println("MODO 1");
+      }
+      //MODO 2
+      else if(programSelectorValue > 59 && programSelectorValue < 63){
+          Serial.println("MODO 2");
+      }
+      //MODO 3
+      else if(programSelectorValue > 51 && programSelectorValue < 59){
+          Serial.println("MODO 3");
+      }
+      //MODO 4
+      else if(programSelectorValue > 45 && programSelectorValue < 51){
+          Serial.println("MODO 4");
+      }
+      //MODO 5
+      else if(programSelectorValue > 37 && programSelectorValue < 45){
+          Serial.println("MODO 5");
+      }
+      //MODO 6
+      else if(programSelectorValue > 25 && programSelectorValue < 37){
+          Serial.println("MODO 6");
+      }
+      //MODO 7
+      else{
+          Serial.println("MODO 7");
+      }
+      
+      programStatus = 1;
+  }
+  
+  /*
+  while(1){
+      int programSelectorValue = analogRead(0); //leitura tensao chave seletora
+      
+      Serial.println(programSelectorValue/10);
+      
+      delay(250);
+  }*/
+  
+  /*
+  if(programStatus == 0){
     
       Serial.println("### INICIANDO LAVAGEM ###");
     
@@ -47,10 +88,10 @@ void loop() {
       tankFlood(); //enche o tanque ate o nivel selecionado
       
       Serial.println(">> Batendo a roupa 4x com intervalos de 3 segundos...");
-      wash(4, 3000); //bate a roupa
+      wash(4, 2000); //bate a roupa
       
-      Serial.println(">> Esvaziando o tanque...");
-      tankFlush(30); //esvazia o tanque
+      Serial.println(">> Esvaziando o tanque ate o fim...");
+      tankFlush(0); //esvazia o tanque
       
       Serial.println(">> Centrifugando durante 30 segundos...");
       tankCentrifuge(30); //centrifuga a parada
@@ -60,13 +101,12 @@ void loop() {
       
       programStatus = 1;
       
-      //digitalWrite(12, HIGH);
-      digitalWrite(13, HIGH);
+      digitalWrite(13, HIGH); //acende o led status de verde pra indicar lavagem completa
       
       Serial.println(">> LAVAGEM COMPLETA! Bora beber! =)");
       
       endOfJobMusic(); //fim da festa!
-  }
+  }*/
   
 }
 
@@ -124,13 +164,26 @@ void tankFlush(int duration){
     
     digitalWrite(7, HIGH);
     
-    for (int i=0; i <= duration; i++){
+    //se tem duration, usa ele como param
+    if(duration == 0){
+      for(int i=0; i < duration; i++){
         digitalWrite(13, HIGH);
         delay(500);
         digitalWrite(13, LOW);
         delay(500);
+      }
     }
-    
+    //se o pressostato esta travado, bombeia agua ate destravar
+    else{
+      //mantem ativo ate o pressostato gritar
+      while(!digitalRead(3)){
+          digitalWrite(13, HIGH);
+          delay(500);
+          digitalWrite(13, LOW);
+          delay(500);
+      }
+    }
+   
     digitalWrite(7, LOW);
     digitalWrite(13, LOW);
 }
@@ -189,5 +242,10 @@ void endOfJobMusic(){
       }
     }
   }
+}
+
+
+void mode7(){
+
 }
 
