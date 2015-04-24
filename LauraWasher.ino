@@ -19,12 +19,12 @@ void setup() {
  
   pinMode(11, OUTPUT); //speaker
   
-  pinMode(A0, INPUT_PULLUP);
+  pinMode(A0, INPUT_PULLUP); //pullup do selector-key
   
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(8, OUTPUT);
+  pinMode(5, OUTPUT); //motor E
+  pinMode(6, OUTPUT); //motor D
+  pinMode(7, OUTPUT); //bomba flush
+  pinMode(8, OUTPUT); //solenoide inundacao
   
   //zera todas saidas
   digitalWrite(5, LOW);
