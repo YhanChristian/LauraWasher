@@ -1,5 +1,4 @@
 //global vars
-int keySelectorRead = 0;
 int programStatus = 0;
 
 
@@ -36,12 +35,14 @@ void loop() {
   if(programStatus == 0){
       
       int programSelectorValue = (analogRead(0) / 10); //leitura key-selector 
+      //Serial.println(programSelectorValue);
       
       //MODO 1 - Super Molho
       if(programSelectorValue > 98 && programSelectorValue < 105){
           //sequencia 1
           Serial.println("MODO 1 :: SUPER MOLHO");
           //nunca usado
+          Serial.println(programSelectorValue);
       }
       
       //MODO 2 - Lavagem Pesada
@@ -59,7 +60,7 @@ void loop() {
               wash(75, 1500); //bate a roupa 75x
               
               //deixa a roupa de molho por 5 min
-              for (int i=0; i < 300; i++){
+              for (int x=0; x < 300; x++){
                   digitalWrite(12, HIGH);
                   delay(500);
                   digitalWrite(12, LOW);
@@ -109,7 +110,7 @@ void loop() {
               wash(75, 1500); //bate a roupa 75x
               
               //deixa a roupa de molho por 5 min
-              for (int i=0; i < 300; i++){
+              for (int x=0; x < 300; x++){
                   digitalWrite(12, HIGH);
                   delay(500);
                   digitalWrite(12, LOW);
@@ -143,17 +144,20 @@ void loop() {
           
           Serial.println(">> LAVAGEM COMPLETA! =)");
       }
+      
       //MODO 4 - Lavagem Rapida
       else if(programSelectorValue > 68 && programSelectorValue < 80){
           Serial.println("MODO 4 :: LAVAGEM RAPIDA");
           //nunca usado
       }
+      
       //MODO 5 - Lavagem Delicada
       else if(programSelectorValue > 51 && programSelectorValue < 68){
           Serial.println("MODO 5 :: LAVAGEM DELICADA");
           //nunca usado
       }
-      //MODO 6
+      
+      //MODO 6 - ENXAGUE
       else if(programSelectorValue > 31 && programSelectorValue < 51){
           Serial.println("MODO 6 :: ENXAGUE");
           
@@ -183,9 +187,9 @@ void loop() {
           
           Serial.println(">> LAVAGEM COMPLETA! =)");
       }
-      
+      /*
       //MODO 7 - CENTRIFUGACAO
-      else{
+      else if(programSelectorValue > 9 && programSelectorValue < 51){
           Serial.println("MODO 7 :: CENTRIFUGACAO");
           Serial.println(">> Esvaziando o tanque ate o fim...");
           
@@ -198,23 +202,21 @@ void loop() {
           tankFlush(15); //retira a agua restante da centrifugacao
           
           Serial.println(">> CENTRIFUGACAO COMPLETA! =)");
-      }
-      
+      }*/
       
       digitalWrite(13, HIGH); //acende o led status de verde pra indicar lavagem completa
       
-      endOfJobMusic(); //faz barulho
+      //endOfJobMusic(); //faz barulho
       
       programStatus = 1; //programa concluido!
   }
-  
 }
 
 
 //lavacao
 //shakes = batidas de roupa
 //interval = intervalo entre batidas (ms)
-boolean wash(int shakes, int interval){
+void wash(int shakes, int interval){
   
   for (int i=0; i < shakes; i++){
       digitalWrite(5, HIGH);
@@ -311,7 +313,6 @@ void tankFlood(){
 
 
 //end of job music
-//essa porra eh feia pra caralho mas por eqto eh o q tem!
 void endOfJobMusic(){
   
   int speakerOut = 11;               
@@ -344,10 +345,5 @@ void endOfJobMusic(){
       }
     }
   }
-}
-
-
-void mode7(){
-
 }
 
