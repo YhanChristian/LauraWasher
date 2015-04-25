@@ -55,7 +55,7 @@ void loop() {
           
           //bate a roupa durante 5 minutos, deixa de molho 5 minutos, e repete ate completar 1hr
           Serial.println(">> Batendo a roupa por 1hr com repouso de 5 min...");
-          for(int i=0; i <= 6; i++){
+          for(int i=0; i < 6; i++){
               
               wash(75, 1500); //bate a roupa 75x
               
@@ -105,7 +105,7 @@ void loop() {
           
           //bate a roupa durante 5 minutos, deixa de molho 5 minutos, e repete ate completar 1hr
           Serial.println(">> Batendo a roupa por 30 minutos com repouso de 5 min...");
-          for(int i=0; i <= 6; i++){
+          for(int i=0; i < 3; i++){
               
               wash(75, 1500); //bate a roupa 75x
               
