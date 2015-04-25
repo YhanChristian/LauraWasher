@@ -57,7 +57,7 @@ void loop() {
           Serial.println(">> Batendo a roupa por 1hr com repouso de 5 min...");
           for(int i=0; i < 6; i++){
               
-              wash(75, 1500); //bate a roupa 75x
+              wash(100, 1000); //bate a roupa 75x
               
               //deixa a roupa de molho por 5 min
               for (int x=0; x < 300; x++){
@@ -81,7 +81,7 @@ void loop() {
           tankFlood(); //inundando o tanque
           
           Serial.println(">> Batendo a roupa por mais 5min...");
-          wash(75, 1500); //bate a roupa 75x
+          wash(100, 1000); //bate a roupa 100x
           
           Serial.println(">> Esvaziando o tanque ate o fim...");
           tankFlush(0); //esvazia o tanque
@@ -107,7 +107,7 @@ void loop() {
           Serial.println(">> Batendo a roupa por 30 minutos com repouso de 5 min...");
           for(int i=0; i < 3; i++){
               
-              wash(75, 1500); //bate a roupa 75x
+              wash(100, 1000); //bate a roupa 100x
               
               //deixa a roupa de molho por 5 min
               for (int x=0; x < 300; x++){
@@ -131,7 +131,7 @@ void loop() {
           tankFlood(); //inundando o tanque
           
           Serial.println(">> Batendo a roupa por mais 5min...");
-          wash(75, 1500); //bate a roupa 75x
+          wash(100, 1000); //bate a roupa 75x
           
           Serial.println(">> Esvaziando o tanque ate o fim...");
           tankFlush(0); //esvazia o tanque
@@ -174,7 +174,7 @@ void loop() {
           tankFlood(); //inundando o tanque
           
           Serial.println(">> Batendo a roupa por mais 5min...");
-          wash(75, 1500); //bate a roupa 75x
+          wash(100, 1000); //bate a roupa 100x
           
           Serial.println(">> Esvaziando o tanque ate o fim...");
           tankFlush(0); //esvazia o tanque
@@ -226,7 +226,7 @@ void wash(int shakes, int interval){
       digitalWrite(5, LOW);
       digitalWrite(6, LOW);
       digitalWrite(12, LOW); //ledstatus
-      delay(1000);
+      delay(500);
       digitalWrite(5, LOW);
       digitalWrite(6, HIGH);
       digitalWrite(12, HIGH); //ledstatus
@@ -246,16 +246,23 @@ void wash(int shakes, int interval){
 //pin5 - gira motor direita
 //*duration (segundos)
 void tankCentrifuge(int duration){
-    digitalWrite(5, HIGH);
-    
-    for (int i=0; i <= duration; i++){
+  
+    int divider = (duration/3);
+  
+    for(int x=0; x < 3; x++){
+      
+      digitalWrite(5, HIGH);
+      
+      for (int i=0; i <= divider; i++){
         digitalWrite(12, HIGH);
         delay(500);
         digitalWrite(12, LOW);
         delay(500);
-    }
+      }
     
-    digitalWrite(5, LOW);
+      digitalWrite(5, LOW);
+      delay(5000);
+    } 
 }
 
 
