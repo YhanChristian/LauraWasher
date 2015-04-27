@@ -24,6 +24,7 @@ Próximas features:
 * Implementação de todos modos, incluindo enxague e centrifugação separados.
 * Porta LAN para acesso a internet (monitoração via mobile app)
 * Sensor de temperatura do motor
+* Sensor de rotação do motor
 * Controle dos motores via PWM para reduzir o aquecimento, atrito de engrenagens, melhorar o torque na carambola e reduzir o consumo de energia elétrica.
 
 
