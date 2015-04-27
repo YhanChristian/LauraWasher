@@ -186,22 +186,23 @@ void loop() {
           
           Serial.println(">> LAVAGEM COMPLETA! =)");
       }
-      /*
+      
       //MODO 7 - CENTRIFUGACAO
-      else if(programSelectorValue > 9 && programSelectorValue < 51){
+      else if(programSelectorValue > 9 && programSelectorValue < 31){
           Serial.println("MODO 7 :: CENTRIFUGACAO");
-          Serial.println(">> Esvaziando o tanque ate o fim...");
+          Serial.println("### INICIANDO CENTRIFUGACAO ###");
           
+          Serial.println(">> Esvaziando o tanque ate o fim...");
           tankFlush(0); //esvazia o tanque
           
-          Serial.println(">> Centrifugando durante 3 minutos...");
+          Serial.println(">> Centrifugando durante 3 min...");
           tankCentrifuge(180); //centrifuga a parada
           
-          Serial.println(">> Esvaziando o excesso de agua da centrifugacao (15s)...");
-          tankFlush(15); //retira a agua restante da centrifugacao
+          Serial.println(">> Esvaziando o excesso de agua...");
+          tankFlush(30); //retira a agua restante da centrifugacao
           
           Serial.println(">> CENTRIFUGACAO COMPLETA! =)");
-      }*/
+      }
       
       digitalWrite(13, HIGH); //acende o led status de verde pra indicar lavagem completa
       
@@ -255,7 +256,7 @@ void tankCentrifuge(int duration){
       //liga por 6 seg
       digitalWrite(5, HIGH);
       
-      for (int i=0; i < 6; i++){
+      for (int i=0; i < 9; i++){
         digitalWrite(13, HIGH);
         delay(500);
         digitalWrite(13, LOW);
@@ -265,7 +266,7 @@ void tankCentrifuge(int duration){
       //desliga 4s
       digitalWrite(5, LOW);
       
-      for (int i=0; i < 4; i++){
+      for (int i=0; i < 1; i++){
         digitalWrite(12, HIGH);
         delay(500);
         digitalWrite(12, LOW);
