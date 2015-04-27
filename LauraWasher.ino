@@ -34,8 +34,7 @@ void loop() {
   
   if(programStatus == 0){
       
-      int programSelectorValue = (analogRead(0) / 10); //leitura key-selector 
-      //Serial.println(programSelectorValue);
+      int programSelectorValue = (analogRead(0) / 10); //leitura key-selector
       
       //MODO 1 - Super Molho
       if(programSelectorValue > 98 && programSelectorValue < 105){
@@ -57,7 +56,7 @@ void loop() {
           Serial.println(">> Batendo a roupa por 1hr com repouso de 5 min...");
           for(int i=0; i < 6; i++){
               
-              wash(100, 1000); //bate a roupa 75x
+              wash(172, 500); //bate a roupa 172x
               
               //deixa a roupa de molho por 5 min
               for (int x=0; x < 300; x++){
@@ -81,7 +80,7 @@ void loop() {
           tankFlood(); //inundando o tanque
           
           Serial.println(">> Batendo a roupa por mais 5min...");
-          wash(100, 1000); //bate a roupa 100x
+          wash(172, 500); //bate a roupa 172x
           
           Serial.println(">> Esvaziando o tanque ate o fim...");
           tankFlush(0); //esvazia o tanque
@@ -107,7 +106,7 @@ void loop() {
           Serial.println(">> Batendo a roupa por 30 minutos com repouso de 5 min...");
           for(int i=0; i < 3; i++){
               
-              wash(100, 1000); //bate a roupa 100x
+              wash(172, 500); //bate a roupa 172x
               
               //deixa a roupa de molho por 5 min
               for (int x=0; x < 300; x++){
@@ -131,7 +130,7 @@ void loop() {
           tankFlood(); //inundando o tanque
           
           Serial.println(">> Batendo a roupa por mais 5min...");
-          wash(100, 1000); //bate a roupa 75x
+          wash(172, 500); //bate a roupa 172x
           
           Serial.println(">> Esvaziando o tanque ate o fim...");
           tankFlush(0); //esvazia o tanque
@@ -174,7 +173,7 @@ void loop() {
           tankFlood(); //inundando o tanque
           
           Serial.println(">> Batendo a roupa por mais 5min...");
-          wash(100, 1000); //bate a roupa 100x
+          wash(172, 500); //bate a roupa 172x
           
           Serial.println(">> Esvaziando o tanque ate o fim...");
           tankFlush(0); //esvazia o tanque
@@ -221,25 +220,25 @@ void wash(int shakes, int interval){
   for (int i=0; i < shakes; i++){
       digitalWrite(5, HIGH);
       digitalWrite(6, LOW);
-      digitalWrite(12, HIGH); //ledstatus
-      delay(750);
-      digitalWrite(5, LOW);
-      digitalWrite(6, LOW);
-      digitalWrite(12, LOW); //ledstatus
+      digitalWrite(13, HIGH); //ledstatus
       delay(500);
       digitalWrite(5, LOW);
+      digitalWrite(6, LOW);
+      digitalWrite(13, LOW); //ledstatus
+      delay(250); //repouso motor
+      digitalWrite(5, LOW);
       digitalWrite(6, HIGH);
-      digitalWrite(12, HIGH); //ledstatus
-      delay(750);
+      digitalWrite(13, HIGH); //ledstatus
+      delay(500);
       digitalWrite(5, LOW);
       digitalWrite(6, LOW);
-      digitalWrite(12, LOW); //ledstatus
+      digitalWrite(13, LOW); //ledstatus
       delay(interval);
   }
   
   digitalWrite(5, LOW);
   digitalWrite(6, LOW);
-  digitalWrite(12, LOW); //ledstatus
+  digitalWrite(13, LOW); //ledstatus
 }
 
 //centrifugar
@@ -247,22 +246,35 @@ void wash(int shakes, int interval){
 //*duration (segundos)
 void tankCentrifuge(int duration){
   
-    int divider = (duration/3);
+    digitalWrite(12, LOW);
+    digitalWrite(13, LOW);
   
-    for(int x=0; x < 3; x++){
-      
+    int divider = (duration/10);
+    
+    for(int i=0; i < divider; i++){
+      //liga por 6 seg
       digitalWrite(5, HIGH);
       
-      for (int i=0; i <= divider; i++){
+      for (int i=0; i < 6; i++){
+        digitalWrite(13, HIGH);
+        delay(500);
+        digitalWrite(13, LOW);
+        delay(500);
+      }
+      
+      //desliga 4s
+      digitalWrite(5, LOW);
+      
+      for (int i=0; i < 4; i++){
         digitalWrite(12, HIGH);
         delay(500);
         digitalWrite(12, LOW);
         delay(500);
       }
-    
-      digitalWrite(5, LOW);
-      delay(5000);
-    } 
+    }
+   
+    digitalWrite(5, LOW);  //desliga motor
+    digitalWrite(12, LOW); //desliga led status
 }
 
 
