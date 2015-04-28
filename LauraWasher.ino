@@ -199,7 +199,7 @@ void loop() {
           tankCentrifuge(180); //centrifuga a parada
           
           Serial.println(">> Esvaziando o excesso de agua...");
-          tankFlush(30); //retira a agua restante da centrifugacao
+          tankFlush(10); //retira a agua restante da centrifugacao
           
           Serial.println(">> CENTRIFUGACAO COMPLETA! =)");
       }
@@ -247,11 +247,13 @@ void wash(int shakes, int interval){
 //*duration (segundos)
 void tankCentrifuge(int duration){
   
-    digitalWrite(12, LOW);
-    digitalWrite(13, LOW);
-  
     int divider = (duration/10);
     
+    digitalWrite(12, LOW);
+    digitalWrite(13, LOW);
+    
+    digitalWrite(7, HIGH); //liga a bomba de drenagem
+  
     for(int i=0; i < divider; i++){
       //liga por 6 seg
       digitalWrite(5, HIGH);
@@ -273,7 +275,8 @@ void tankCentrifuge(int duration){
         delay(500);
       }
     }
-   
+    
+    digitalWrite(7, LOW); //desliga a bomba de drenagem 
     digitalWrite(5, LOW);  //desliga motor
     digitalWrite(12, LOW); //desliga led status
 }
